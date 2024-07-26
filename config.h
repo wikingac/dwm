@@ -33,7 +33,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     	= 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     	= 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     	= 1;    /* number of clients in master area */
 static const int resizehints 	= 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; 	/* 1 will force focus on the fullscreen window */
@@ -65,14 +65,16 @@ static const char *browser[]  = { "firefox", NULL };
 static const char *volup[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
 static const char *voldown[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
 static const char *volmute[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
-static const char *screenshot[]  = { "flameshot", "gui" , NULL };
+static const char *ss[]  = { "flameshot", "gui" , NULL };
+static const char *ssfull[]  = { "flameshot", "full" , NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,			  spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return,		  spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_b,			  spawn,          {.v = browser } },
-	{ 0,				XK_Print,		  spawn,          {.v = screenshot } },
+	{ MODKEY|ShiftMask,		XK_Print,		  spawn,          {.v = ssfull } },
+	{ 0,				XK_Print,		  spawn,          {.v = ss } },
 	{ 0,				XF86XK_AudioLowerVolume,  spawn,	  {.v = voldown } },
 	{ 0,				XF86XK_AudioRaiseVolume,  spawn,	  {.v = volup } },
 	{ 0,				XF86XK_AudioMute,	  spawn,	  {.v = volmute } },
