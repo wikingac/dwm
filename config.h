@@ -23,13 +23,10 @@ static const char *colors[][3]      = {
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
 	/* class          instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",	  NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",	  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "zathura",	  NULL,       NULL,       0,            1,           -1 },
+	{ "vlc",	  NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -62,11 +59,11 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", "-e", "fish", NULL };
 static const char *browser[]  = { "chromium", NULL };
-static const char *volup[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
-static const char *voldown[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
-static const char *volmute[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
-static const char *ss[]  = { "flameshot", "gui" , NULL };
-static const char *ssfull[]  = { "flameshot", "full" , NULL };
+static const char *volup[]    = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
+static const char *voldown[]  = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
+static const char *volmute[]  = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
+static const char *ss[]	      = { "flameshot", "gui",  NULL };
+static const char *ssfull[]   = { "flameshot", "full", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
