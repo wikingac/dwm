@@ -1,18 +1,18 @@
 /* See LICENSE file for copyright and license details. */
 
 /*Hack  appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 6;        /* gaps between windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Hack Nerd Font:style=Bold:size=11.5" };
-static const char dmenufont[]       = "Hack Nerd Font:style=Bold:size=13";
+static const char *fonts[]          = { "Cantarell:style=Bold:size=13.5" };
+static const char dmenufont[]       = "Cantarell:style=Bold:size=13";
 static const char col_gray1[]       = "#222222";
 static const char col_border[]      = "#d1ebdb"; // #fac585
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#72b5ba";
+static const char col_cyan[]        = "#285577";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray1 },
@@ -58,23 +58,51 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", "-e", "fish", NULL };
-static const char *browser[]  = { "chromium", NULL };
+static const char *browser[]  = { "firefox", NULL };
 static const char *volup[]    = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
 static const char *voldown[]  = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
 static const char *volmute[]  = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
+static const char *playerctl[]= { "mpc", "toggle", NULL };
+static const char *playnext[] = { "mpc", "next", NULL };
+static const char *playprev[] = { "mpc", "prev", NULL };
 static const char *ss[]	      = { "flameshot", "gui",  NULL };
 static const char *ssfull[]   = { "flameshot", "full", NULL };
+static const char *dict[]     = { "goldendict", NULL };
+static const char *anki[]     = { "anki", NULL };
+static const char *bookmg[]   = { "calibre", NULL };
+static const char *clash[]    = { "clash-verge", NULL };
+static const char *chrom[]    = { "chromium", "--proxy-server=127.0.0.1:7897", NULL };
+static const char *diskmg[]   = { "st", "-e", "ncdu", NULL };
+static const char *filemg[]   = { "st", "-e", "ranger", NULL };
+static const char *taskmg[]   = { "st", "-e", "btop", NULL };
+static const char *musicply[] = { "st", "-e", "ncmpcpp", NULL };
+static const char *rss[]      = { "st", "-e", "bash", "-c", "source /home/wiking/Documents/util/proxy.sh && newsboat", NULL };
+static const char *clock[]    = { "st", "-e", "tty-clock", "-c", "-s", "-C", "3", NULL };
 
 static const Key keys[] = {
-	/* modifier                     key        function        argument */
+	/* modifier                     key                       function        argument */
 	{ MODKEY,                       XK_p,			  spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return,		  spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_b,			  spawn,          {.v = browser } },
+	{ MODKEY|ShiftMask,             XK_u,			  spawn,          {.v = chrom  } },
+	{ MODKEY|ShiftMask,             XK_k,			  spawn,          {.v = filemg } },
+	{ MODKEY|ShiftMask,             XK_m,			  spawn,          {.v = musicply } },
+	{ MODKEY|ShiftMask,             XK_r,			  spawn,          {.v = rss } },
+	{ MODKEY|ShiftMask,             XK_F6,			  spawn,          {.v = taskmg } },
+	{ MODKEY|ShiftMask,             XK_F7,			  spawn,          {.v = diskmg } },
+	{ MODKEY|ShiftMask,             XK_F8,			  spawn,          {.v = clock } },
+	{ MODKEY|ShiftMask,             XK_F9,			  spawn,          {.v = anki } },
+	{ MODKEY|ShiftMask,             XK_F10,			  spawn,          {.v = bookmg } },
+	{ MODKEY|ShiftMask,             XK_F11,			  spawn,          {.v = dict } },
+	{ MODKEY|ShiftMask,             XK_F12,			  spawn,          {.v = clash } },
 	{ MODKEY|ShiftMask,		XK_Print,		  spawn,          {.v = ssfull } },
-	{ 0,				XK_Print,		  spawn,          {.v = ss } },
+	{ MODKEY|ShiftMask,             XK_Left,                  spawn,          {.v = playprev } },
+	{ MODKEY|ShiftMask,             XK_Right,                 spawn,          {.v = playnext } },
+	{ MODKEY|ShiftMask,             XF86XK_AudioMute,         spawn,          {.v = playerctl} },
 	{ 0,				XF86XK_AudioLowerVolume,  spawn,	  {.v = voldown } },
 	{ 0,				XF86XK_AudioRaiseVolume,  spawn,	  {.v = volup } },
 	{ 0,				XF86XK_AudioMute,	  spawn,	  {.v = volmute } },
+	{ 0,				XK_Print,		  spawn,          {.v = ss } },
 	{ MODKEY,                       XK_b,			  togglebar,      {0} },
 	{ MODKEY,                       XK_j,			  focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,			  focusstack,     {.i = -1 } },
