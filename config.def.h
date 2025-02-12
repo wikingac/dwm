@@ -2,8 +2,13 @@
 
 /*Hack  appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int gappx     = 20;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int gappx     = 20;        /* gaps between windows */
+static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
+static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Cantarell:style=Bold:size=13.5" };
@@ -36,11 +41,26 @@ static const int resizehints 	= 0;    /* 1 means respect size hints in tiled res
 static const int lockfullscreen = 1; 	/* 1 will force focus on the fullscreen window */
 static const int attachbelow 	= 1;    /* 1 means attach after the currently active window */
 
+#define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
+#include "vanitygaps.c"
+
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[@]",      spiral },
+	{ "[\\]",     dwindle },
+	{ "H[]",      deck },
+	{ "TTT",      bstack },
+	{ "===",      bstackhoriz },
+	{ "HHH",      grid },
+	{ "###",      nrowgrid },
+	{ "---",      horizgrid },
+	{ ":::",      gaplessgrid },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
@@ -110,6 +130,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,			  incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,			  setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,			  setmfact,       {.f = +0.05} },
+        { MODKEY|ShiftMask,             XK_h,                     setcfact,       {.f = +0.25} },
 	{ MODKEY,                       XK_Return,		  zoom,           {0} },
 	{ MODKEY,                       XK_Tab,			  view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,			  killclient,     {0} },
@@ -125,6 +146,16 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period,		  focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,		  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period,		  tagmon,         {.i = +1 } },
+	/* not in use but to omit warnings*/
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,			  incrgaps,       {.i = +1 } },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,			  incrogaps,      {.i = +1 } },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,			  incrigaps,      {.i = +1 } },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,			  incrivgaps,     {.i = +1 } },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,			  incrihgaps,     {.i = +1 } },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,			  incrovgaps,     {.i = +1 } },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,			  incrohgaps,     {.i = +1 } },
+	{ MODKEY|Mod4Mask,              XK_0,			  togglegaps,     {0} },
+	{ MODKEY|Mod4Mask|ShiftMask,    XK_0,			  defaultgaps,    {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
