@@ -14,7 +14,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "Cantarell:style=Bold:size=13.5" };
 static const char dmenufont[]       = "Cantarell:style=Bold:size=13";
 static const char col_gray1[]       = "#222222";
-static const char col_border[]      = "#d1ebdb"; // #fac585
+static const char col_border[]      = "#f5b60a"; // #fac585
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#285577";
@@ -47,7 +47,7 @@ static const int attachbelow 	= 1;    /* 1 means attach after the currently acti
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
+	{ "|M|",      centeredmaster },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[@]",      spiral },
 	{ "[\\]",     dwindle },
@@ -58,10 +58,13 @@ static const Layout layouts[] = {
 	{ "###",      nrowgrid },
 	{ "---",      horizgrid },
 	{ ":::",      gaplessgrid },
-	{ "|M|",      centeredmaster },
+	{ "[M]",      monocle },
 	{ ">M>",      centeredfloatingmaster },
 	{ NULL,       NULL },
 };
+
+/* terminal emulator */
+#define TERMINAL "st"
 
 /* key definitions */
 #define MODKEY Mod1Mask
@@ -74,10 +77,18 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", "-e", "fish", NULL };
+static const char *termcmd[]  = { TERMINAL, "-e", "fish", NULL };
+static const char *diskmg[]   = { TERMINAL, "-e", "ncdu", NULL };
+static const char *filemg[]   = { TERMINAL, "-e", "ranger", NULL };
+static const char *taskmg[]   = { TERMINAL, "-e", "btop", NULL };
+static const char *musicply[] = { TERMINAL, "-e", "ncmpcpp", NULL };
+static const char *vimwiki[]  = { TERMINAL, "-e", "nvim", "-c", "VimwikiIndex", NULL };
+static const char *rss[]      = { TERMINAL, "-e", "bash", "-c", "source ~/.config/scripts/proxy.sh && newsboat", NULL };
+static const char *clock[]    = { TERMINAL, "-e", "tty-clock", "-c", "-s", "-C", "3", NULL };
 static const char *browser[]  = { "firefox", NULL };
 static const char *volup[]    = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
 static const char *voldown[]  = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",    NULL };
@@ -87,17 +98,12 @@ static const char *playnext[] = { "mpc", "next", NULL };
 static const char *playprev[] = { "mpc", "prev", NULL };
 static const char *ss[]	      = { "flameshot", "gui",  NULL };
 static const char *ssfull[]   = { "flameshot", "full", NULL };
+static const char *locksc[]   = { "/bin/sh", "-c", "slock & mpc pause", NULL };
 static const char *dict[]     = { "goldendict", NULL };
 static const char *anki[]     = { "anki", NULL };
 static const char *bookmg[]   = { "calibre", NULL };
 static const char *clash[]    = { "clash-verge", NULL };
 static const char *chrom[]    = { "chromium", "--proxy-server=127.0.0.1:7897", NULL };
-static const char *diskmg[]   = { "st", "-e", "ncdu", NULL };
-static const char *filemg[]   = { "st", "-e", "ranger", NULL };
-static const char *taskmg[]   = { "st", "-e", "btop", NULL };
-static const char *musicply[] = { "st", "-e", "ncmpcpp", NULL };
-static const char *rss[]      = { "st", "-e", "bash", "-c", "source /home/wiking/Documents/util/proxy.sh && newsboat", NULL };
-static const char *clock[]    = { "st", "-e", "tty-clock", "-c", "-s", "-C", "3", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key                       function        argument */
@@ -105,20 +111,22 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return,		  spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_b,			  spawn,          {.v = browser } },
 	{ MODKEY|ShiftMask,             XK_u,			  spawn,          {.v = chrom  } },
-	{ MODKEY|ShiftMask,             XK_k,			  spawn,          {.v = filemg } },
+	{ MODKEY|ShiftMask,             XK_r,			  spawn,          {.v = filemg } },
 	{ MODKEY|ShiftMask,             XK_m,			  spawn,          {.v = musicply } },
-	{ MODKEY|ShiftMask,             XK_r,			  spawn,          {.v = rss } },
-	{ MODKEY|ShiftMask,             XK_F6,			  spawn,          {.v = taskmg } },
-	{ MODKEY|ShiftMask,             XK_F7,			  spawn,          {.v = diskmg } },
-	{ MODKEY|ShiftMask,             XK_F8,			  spawn,          {.v = clock } },
+	{ MODKEY|ShiftMask,             XK_k,			  spawn,          {.v = rss } },
+	{ MODKEY|ShiftMask,             XK_j,			  spawn,          {.v = vimwiki } },
+	{ MODKEY|ShiftMask,             XK_l,			  spawn,          {.v = locksc } },
 	{ MODKEY|ShiftMask,             XK_F9,			  spawn,          {.v = anki } },
 	{ MODKEY|ShiftMask,             XK_F10,			  spawn,          {.v = bookmg } },
 	{ MODKEY|ShiftMask,             XK_F11,			  spawn,          {.v = dict } },
 	{ MODKEY|ShiftMask,             XK_F12,			  spawn,          {.v = clash } },
+	{ MODKEY|ShiftMask,             XK_Delete,		  spawn,          {.v = taskmg } },
+	{ MODKEY|ShiftMask,             XK_Insert,		  spawn,          {.v = diskmg } },
+	{ MODKEY|ShiftMask,             XK_Home,		  spawn,          {.v = clock } },
 	{ MODKEY|ShiftMask,		XK_Print,		  spawn,          {.v = ssfull } },
 	{ MODKEY|ShiftMask,             XK_Left,                  spawn,          {.v = playprev } },
 	{ MODKEY|ShiftMask,             XK_Right,                 spawn,          {.v = playnext } },
-	{ MODKEY|ShiftMask,             XF86XK_AudioMute,         spawn,          {.v = playerctl} },
+	{ 0,                            XK_Pause,                 spawn,          {.v = playerctl} },
 	{ 0,				XF86XK_AudioLowerVolume,  spawn,	  {.v = voldown } },
 	{ 0,				XF86XK_AudioRaiseVolume,  spawn,	  {.v = volup } },
 	{ 0,				XF86XK_AudioMute,	  spawn,	  {.v = volmute } },
@@ -134,9 +142,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return,		  zoom,           {0} },
 	{ MODKEY,                       XK_Tab,			  view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,			  killclient,     {0} },
-	{ MODKEY,                       XK_t,			  setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,			  setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,			  setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_f,			  setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_m,			  setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_t,			  setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,		  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,		  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,			  togglefullscr,  {0} },
