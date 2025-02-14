@@ -81,13 +81,13 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { TERMINAL, "-e", "fish", NULL };
+static const char *termcmd[]  = { TERMINAL, "-e", "zsh", NULL };
 static const char *diskmg[]   = { TERMINAL, "-e", "ncdu", NULL };
 static const char *filemg[]   = { TERMINAL, "-e", "ranger", NULL };
 static const char *taskmg[]   = { TERMINAL, "-e", "btop", NULL };
 static const char *musicply[] = { TERMINAL, "-e", "ncmpcpp", NULL };
 static const char *vimwiki[]  = { TERMINAL, "-e", "nvim", "-c", "VimwikiIndex", NULL };
-static const char *rss[]      = { TERMINAL, "-e", "bash", "-c", "source ~/.config/scripts/proxy.sh && newsboat", NULL };
+static const char *rss[]      = { TERMINAL, "-e", "/bin/sh", "-c", "source ~/.local/bin/proxy && newsboat", NULL };
 static const char *clock[]    = { TERMINAL, "-e", "tty-clock", "-c", "-s", "-C", "3", NULL };
 static const char *browser[]  = { "firefox", NULL };
 static const char *volup[]    = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",    NULL };
