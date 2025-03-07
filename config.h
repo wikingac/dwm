@@ -48,18 +48,18 @@ static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "|M|",      centeredmaster },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "HHH",      grid },
 	{ "[@]",      spiral },
 	{ "[\\]",     dwindle },
 	{ "H[]",      deck },
 	{ "TTT",      bstack },
 	{ "===",      bstackhoriz },
-	{ "HHH",      grid },
 	{ "###",      nrowgrid },
 	{ "---",      horizgrid },
 	{ ":::",      gaplessgrid },
 	{ "[M]",      monocle },
 	{ ">M>",      centeredfloatingmaster },
+	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
 
@@ -83,9 +83,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { TERMINAL, "-e", "zsh", NULL };
 static const char *diskmg[]   = { TERMINAL, "-e", "ncdu", NULL };
-static const char *filemg[]   = { TERMINAL, "-e", "ranger", NULL };
+static const char *filemg[]   = { TERMINAL, "-e", "lf", NULL };
 static const char *taskmg[]   = { TERMINAL, "-e", "btop", NULL };
-static const char *soundctl[] = { TERMINAL, "-e", "ncpamixer -t o", NULL };
+static const char *soundctl[] = { TERMINAL, "-e", "ncpamixer", "-t", "o", NULL };
 static const char *musicply[] = { TERMINAL, "-e", "ncmpcpp", NULL };
 static const char *vimwiki[]  = { TERMINAL, "-e", "nvim", "-c", "VimwikiIndex", NULL };
 static const char *rss[]      = { TERMINAL, "-e", "/bin/sh", "-c", "source ~/.local/bin/proxy && newsboat", NULL };
@@ -152,9 +152,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return,		  zoom,           {0} },
 	{ MODKEY,                       XK_Tab,			  view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,			  killclient,     {0} },
-	{ MODKEY,                       XK_f,			  setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_t,			  setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_m,			  setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_t,			  setlayout,      {.i = +1} },
+	{ MODKEY,                       XK_g,			  setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_s,			  setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_space,		  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,		  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,			  togglefullscr,  {0} },
