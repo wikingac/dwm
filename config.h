@@ -106,37 +106,35 @@ static const char *browser[]  = { "firefox", NULL };
 static const char *brow_p[]   = { "librewolf", NULL };
 static const char *chrom[]    = { "chromium", "--proxy-server=127.0.0.1:7897", NULL };
 static const char *dict[]     = { "goldendict", NULL };
-static const char *anki[]     = { "anki", NULL };
 static const char *bookmg[]   = { "calibre", NULL };
 static const char *clash[]    = { "clash-verge", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key                       function        argument */
-	{ MODKEY,                       XK_p,			  spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return,		  spawn,          {.v = termcmd  } },
+	{ MODKEY|ShiftMask,             XK_d,			  spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_a,		          spawn,          {.v = ss       } },
 	{ MODKEY|ShiftMask,             XK_b,			  spawn,          {.v = browser  } },
 	{ MODKEY|ShiftMask,             XK_u,			  spawn,          {.v = chrom    } },
-	{ MODKEY|ShiftMask,             XK_p,			  spawn,          {.v = brow_p   } },
+	{ MODKEY|ShiftMask,             XK_o,			  spawn,          {.v = brow_p   } },
 	{ MODKEY|ShiftMask,             XK_r,			  spawn,          {.v = filemg   } },
 	{ MODKEY|ShiftMask,             XK_n,			  spawn,          {.v = soundctl } },
 	{ MODKEY|ShiftMask,             XK_m,			  spawn,          {.v = musicply } },
 	{ MODKEY|ShiftMask,             XK_k,			  spawn,          {.v = rss      } },
 	{ MODKEY|ShiftMask,             XK_j,			  spawn,          {.v = vimwiki  } },
 	{ MODKEY|ShiftMask,             XK_l,			  spawn,          {.v = locksc   } },
-	{ MODKEY|ShiftMask,             XK_F9,			  spawn,          {.v = anki     } },
-	{ MODKEY|ShiftMask,             XK_F10,			  spawn,          {.v = bookmg   } },
-	{ MODKEY|ShiftMask,             XK_F11,			  spawn,          {.v = dict     } },
-	{ MODKEY|ShiftMask,             XK_F12,			  spawn,          {.v = clash    } },
-	{ MODKEY|ShiftMask,             XK_Delete,		  spawn,          {.v = taskmg   } },
-	{ MODKEY|ShiftMask,             XK_End,			  spawn,          {.v = setbg    } },
-	{ MODKEY|ShiftMask,             XK_Insert,		  spawn,          {.v = diskmg   } },
-	{ MODKEY|ShiftMask,             XK_Home,		  spawn,          {.v = clock    } },
+	{ MODKEY|ShiftMask,             XK_w,			  spawn,          {.v = dict     } },
+	{ MODKEY|ShiftMask,             XK_s,    		  spawn,          {.v = taskmg   } },
+	{ MODKEY|ShiftMask,             XK_v,			  spawn,          {.v = bookmg   } },
+	{ MODKEY|ShiftMask,             XK_x,			  spawn,          {.v = clash    } },
+	{ MODKEY|ShiftMask,             XK_g,			  spawn,          {.v = setbg    } },
+	{ MODKEY|ShiftMask,             XK_y,    		  spawn,          {.v = diskmg   } },
+	{ MODKEY|ShiftMask,             XK_e,   		  spawn,          {.v = clock    } },
 	{ MODKEY|ShiftMask,		XK_Print,		  spawn,          {.v = ssfull   } },
 	{ MODKEY|ShiftMask,             XK_Left,                  spawn,          {.v = playprev } },
 	{ MODKEY|ShiftMask,             XK_Right,                 spawn,          {.v = playnext } },
-	{ 0,                            XK_Pause,                 spawn,          {.v = playerctl} },
-	{ ShiftMask,                    XK_Pause,                 spawn,          {.v = mpvctl   } },
+	{ MODKEY,                       XK_p,                     spawn,          {.v = playerctl} },
+	{ MODKEY|ShiftMask,             XK_p,                     spawn,          {.v = mpvctl   } },
 	{ 0,				XF86XK_AudioLowerVolume,  spawn,	  {.v = voldown  } },
 	{ 0,				XF86XK_AudioRaiseVolume,  spawn,	  {.v = volup    } },
 	{ 0,				XF86XK_AudioMute,	  spawn,	  {.v = volmute  } },
@@ -184,7 +182,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_Delete,                quit,           {0} },
 };
 
 /* button definitions */
